@@ -9,6 +9,8 @@ class SupportedApiSettings {
     companion object {
         const val CLUSTER_HEALTH_PATH = "/_cluster/health"
         const val CLUSTER_STATS_PATH = "/_cluster/stats"
+        const val NODES_HOT_THREADS = "/_node/hot_threads"
+        // TODO: check for the format of  /_nodes/<node_id>/hot_threads
 
         /**
          * Each String represents the path to call an API.
@@ -30,6 +32,7 @@ class SupportedApiSettings {
         init {
             supportedApiList[CLUSTER_HEALTH_PATH] = hashMapOf()
             supportedApiList[CLUSTER_STATS_PATH] = hashMapOf()
+            supportedApiList[NODES_HOT_THREADS] = hashMapOf()
         }
 
         /**

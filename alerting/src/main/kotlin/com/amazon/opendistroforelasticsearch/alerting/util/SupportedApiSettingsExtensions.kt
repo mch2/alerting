@@ -9,6 +9,7 @@ import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse
 import org.elasticsearch.action.admin.cluster.stats.ClusterStatsRequest
 import org.elasticsearch.action.admin.cluster.stats.ClusterStatsResponse
 import org.elasticsearch.client.Client
+import org.opensearch.action.admin.cluster.node.hotthreads.NodesHotThreadsRequest
 
 fun executeTransportAction(localUriInput: LocalUriInput, client: Client): ActionResponse {
     val path = SupportedApiSettings.validateLocalUriInput(localUriInput)
@@ -18,6 +19,9 @@ fun executeTransportAction(localUriInput: LocalUriInput, client: Client): Action
     if (path == SupportedApiSettings.CLUSTER_STATS_PATH) {
         return client.admin().cluster().clusterStats(ClusterStatsRequest()).get()
     }
+    if (path == SupportedApiSettings.NODES_HOT_THREADS) {
+        return client.admin().cluster().nodesHotThreads(NodesHotThreadsRequest()).get()
+    }
     throw IllegalArgumentException("Unsupported API: $path")
 }
 
@@ -26,6 +30,9 @@ fun ActionResponse.toMap(): Map<String, Any> {
         return this.convertToMap()
     }
     if (this is ClusterStatsResponse) {
+        return this.convertToMap()
+    }
+    if (this is NodesHotThreadsRequest) {
         return this.convertToMap()
     }
     throw IllegalArgumentException("Unsupported ActionResponse type: ${this.javaClass.name}")
